@@ -10,15 +10,8 @@ import lombok.Setter;
 @Table(name = "order_shipper")
 public class OrderShipper {
 
-    @Id
-    @ManyToOne(cascade = CascadeType.ALL)  // Áp dụng cascade cho việc xóa
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
-    private Order order;
-
-    @ManyToOne(cascade = CascadeType.ALL)  // Áp dụng cascade cho việc xóa
-    @JoinColumn(name = "shipper_id", referencedColumnName = "id")
-    private Shipper shipper;
-
+    @EmbeddedId
+    public OrderShipperId id;
     @Column(name = "assigned_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date assignedDate = new java.util.Date();
