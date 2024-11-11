@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Organic - Grocery Store HTML Website Template</title>
+  	
+    <title>High Quality - Electric Shops Website</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +23,97 @@
 
   </head>
   <body>
+	<header>
+		<div class="container-fluid">
+			<div class="row py-3 border-bottom">
+				<!-- Logo Section -->
+				<div
+					class="col-sm-4 col-lg-2 text-center text-sm-start d-flex gap-3 justify-content-center justify-content-md-start">
+					<div class="d-flex align-items-center my-3 my-sm-0">
+						<a href="index.html"> <img src="/images/logo.png"
+							class="img-fluid">
+						</a>
+					</div>
+					<button class="navbar-toggler" type="button"
+						data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+						aria-controls="offcanvasNavbar">
+						<svg width="24" height="24" viewBox="0 0 24 24">
+							<use xlink:href="#menu"></use></svg>
+					</button>
+				</div>
 
+				<!-- Search Bar Section -->
+				<div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-4">
+					<div class="search-bar row bg-light p-2 rounded-4">
+						<div class="col-md-4 d-none d-md-block">
+							<select class="form-select border-0 bg-transparent">
+								<option>Tất Cả Danh Mục</option>
+								<option>Điện Thoại</option>
+								<option>Máy Tính</option>
+								<option>Phụ Kiện</option>
+							</select>
+						</div>
+						<div class="col-11 col-md-7">
+							<form id="search-form" class="text-center" action="index.html"
+								method="post">
+								<input type="text" class="form-control border-0 bg-transparent"
+									placeholder="Tìm kiếm sản phẩm...">
+							</form>
+						</div>
+						<div class="col-1">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+								viewBox="0 0 24 24">
+								<path fill="currentColor"
+									d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z" /></svg>
+						</div>
+					</div>
+				</div>
+
+				<!-- Navigation Links Section -->
+				<!-- <div class="col-lg-4">
+                <ul class="navbar-nav list-unstyled d-flex flex-row gap-3 gap-lg-5 justify-content-center flex-wrap align-items-center mb-0 fw-bold text-uppercase text-dark">
+                    <li class="nav-item active">
+                        <a href="index.html" class="nav-link">Trang Chủ</a>
+                    </li>
+	                    <li class="nav-item dropdown">
+	                        <a class="nav-link dropdown-toggle pe-3" role="button" id="pages" data-bs-toggle="dropdown" aria-expanded="false">Trang Khác</a>
+	                        <ul class="dropdown-menu border-0 p-3 rounded-0 shadow" aria-labelledby="pages">
+	                            <li><a href="index.html" class="dropdown-item">Về Chúng Tôi</a></li>
+	                            <li><a href="shop.html" class="dropdown-item">Cửa Hàng</a></li>
+	                            <li><a href="product.html" class="dropdown-item">Sản Phẩm</a></li>
+	                            <li><a href="cart.html" class="dropdown-item">Giỏ Hàng</a></li>
+	                            <li><a href="checkout.html" class="dropdown-item">Thanh Toán</a></li>
+	                            <li><a href="blog.html" class="dropdown-item">Tin Tức</a></li>
+	                            <li><a href="contact.html" class="dropdown-item">Liên Hệ</a></li>
+	                            <li><a href="account.html" class="dropdown-item">Tài Khoản Của Tôi</a></li>
+	                            <li><a href="404.html" class="dropdown-item">Lỗi 404</a></li>
+	                        </ul>
+	                    </li>
+                </ul>
+            </div> -->
+
+				<!-- User Options Section -->
+				<div
+					class="col-sm-8 col-lg-2 ms-auto d-flex gap-5 align-items-center justify-content-end">
+					<ul class="d-flex justify-content-end list-unstyled m-0">
+						<li><a href="login.html" class="p-2 mx-1"> <svg
+									width="24" height="24">
+									<use xlink:href="#user"></use></svg>
+						</a></li>
+						<li><a href="wishlist.html" class="p-2 mx-1"> <svg
+									width="24" height="24">
+									<use xlink:href="#wishlist"></use></svg>
+						</a></li>
+						<li><a href="cart.html" class="p-2 mx-1"
+							data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
+							aria-controls="offcanvasCart"> <svg width="24" height="24">
+									<use xlink:href="#shopping-bag"></use></svg>
+						</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</header>
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
       <defs>
         <symbol xmlns="http://www.w3.org/2000/svg" id="facebook" viewBox="0 0 24 24"><path fill="currentColor" d="M15.12 5.32H17V2.14A26.11 26.11 0 0 0 14.26 2c-2.72 0-4.58 1.66-4.58 4.7v2.62H6.61v3.56h3.07V22h3.68v-9.12h3.06l.46-3.56h-3.52V7.05c0-1.05.28-1.73 1.76-1.73Z"/></symbol>
@@ -86,7 +177,7 @@
       <div class="preloader">
       </div>
     </div>
-
+<!-- CART -->
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart">
       <div class="offcanvas-header justify-content-center">
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -129,11 +220,12 @@
         </div>
       </div>
     </div>
-    
+
+<!-- NAV BAR -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar">
 
       <div class="offcanvas-header justify-content-between">
-        <h4 class="fw-normal text-uppercase fs-6">Menu</h4>
+        <h4 class="fw-normal text-uppercase fs-6">Danh Mục</h4>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
 
@@ -143,213 +235,65 @@
           <li class="nav-item border-dashed active">
             <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
               <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#fruits"></use></svg>
-              <span>Fruits and vegetables</span>
+              <span>Laptop</span>
             </a>
           </li>
           <li class="nav-item border-dashed">
             <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
               <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#dairy"></use></svg>
-              <span>Dairy and Eggs</span>
+              <span>Điện thoại</span>
             </a>
           </li>
           <li class="nav-item border-dashed">
             <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
               <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#meat"></use></svg>
-              <span>Meat and Poultry</span>
+              <span>Camera</span>
             </a>
           </li>
           <li class="nav-item border-dashed">
             <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
               <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#seafood"></use></svg>
-              <span>Seafood</span>
+              <span>Máy tính</span>
             </a>
           </li>
           <li class="nav-item border-dashed">
             <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
               <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#bakery"></use></svg>
-              <span>Bakery and Bread</span>
+              <span>Đồ cũ</span>
             </a>
           </li>
           <li class="nav-item border-dashed">
             <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
               <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#canned"></use></svg>
-              <span>Canned Goods</span>
-            </a>
-          </li>
-          <li class="nav-item border-dashed">
-            <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#frozen"></use></svg>
-              <span>Frozen Foods</span>
-            </a>
-          </li>
-          <li class="nav-item border-dashed">
-            <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#pasta"></use></svg>
-              <span>Pasta and Rice</span>
-            </a>
-          </li>
-          <li class="nav-item border-dashed">
-            <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#breakfast"></use></svg>
-              <span>Breakfast Foods</span>
-            </a>
-          </li>
-          <li class="nav-item border-dashed">
-            <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#snacks"></use></svg>
-              <span>Snacks and Chips</span>
+              <span>Dây sạc</span>
             </a>
           </li>
           <li class="nav-item border-dashed">
             <button class="btn btn-toggle dropdown-toggle position-relative w-100 d-flex justify-content-between align-items-center text-dark p-2" data-bs-toggle="collapse" data-bs-target="#beverages-collapse" aria-expanded="false">
               <div class="d-flex gap-3">
                 <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#beverages"></use></svg>
-                <span>Beverages</span>
+                <span>Dịch vụ</span>
               </div>
             </button>
             <div class="collapse" id="beverages-collapse">
               <ul class="btn-toggle-nav list-unstyled fw-normal ps-5 pb-1">
-                <li class="border-bottom py-2"><a href="index.html" class="dropdown-item">Water</a></li>
-                <li class="border-bottom py-2"><a href="index.html" class="dropdown-item">Juice</a></li>
-                <li class="border-bottom py-2"><a href="index.html" class="dropdown-item">Soda</a></li>
-                <li class="border-bottom py-2"><a href="index.html" class="dropdown-item">Tea</a></li>
+                <li class="border-bottom py-2"><a href="index.html" class="dropdown-item">Tư vấn</a></li>
+                <li class="border-bottom py-2"><a href="index.html" class="dropdown-item">Liên hệ</a></li>
+                <li class="border-bottom py-2"><a href="index.html" class="dropdown-item">Theo dõi chúng tôi</a></li>
+                <li class="border-bottom py-2"><a href="index.html" class="dropdown-item">Đặt hàng</a></li>
               </ul>
             </div>
           </li>
-          <li class="nav-item border-dashed">
-            <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#spices"></use></svg>
-              <span>Spices and Seasonings</span>
-            </a>
-          </li>
-          <li class="nav-item border-dashed">
-            <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#baby"></use></svg>
-              <span>Baby Food and Formula</span>
-            </a>
-          </li>
-          <li class="nav-item border-dashed">
-            <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#health"></use></svg>
-              <span>Health and Wellness</span>
-            </a>
-          </li>
-          <li class="nav-item border-dashed">
-            <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#household"></use></svg>
-              <span>Household Supplies</span>
-            </a>
-          </li>
-          <li class="nav-item border-dashed">
-            <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#personal"></use></svg>
-              <span>Personal Care</span>
-            </a>
-          </li>
-          <li class="nav-item border-dashed">
-            <a href="index.html" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#pet"></use></svg>
-              <span>Pet Food and Supplies</span>
-            </a>
-          </li>
         </ul>
-      
       </div>
-
     </div>
 
-    <header>
-      <div class="container-fluid">
-        <div class="row py-3 border-bottom">
-          
-          <div class="col-sm-4 col-lg-2 text-center text-sm-start d-flex gap-3 justify-content-center justify-content-md-start">
-            <div class="d-flex align-items-center my-3 my-sm-0">
-              <a href="index.html">
-                <img src="images/logo.svg" alt="logo" class="img-fluid">
-              </a>
-            </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-              aria-controls="offcanvasNavbar">
-              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#menu"></use></svg>
-            </button>
-          </div>
-          
-          <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-4">
-            <div class="search-bar row bg-light p-2 rounded-4">
-              <div class="col-md-4 d-none d-md-block">
-                <select class="form-select border-0 bg-transparent">
-                  <option>All Categories</option>
-                  <option>Groceries</option>
-                  <option>Drinks</option>
-                  <option>Chocolates</option>
-                </select>
-              </div>
-              <div class="col-11 col-md-7">
-                <form id="search-form" class="text-center" action="index.html" method="post">
-                  <input type="text" class="form-control border-0 bg-transparent" placeholder="Search for more than 20,000 products">
-                </form>
-              </div>
-              <div class="col-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/></svg>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4">
-            <ul class="navbar-nav list-unstyled d-flex flex-row gap-3 gap-lg-5 justify-content-center flex-wrap align-items-center mb-0 fw-bold text-uppercase text-dark">
-              <li class="nav-item active">
-                <a href="index.html" class="nav-link">Home</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle pe-3" role="button" id="pages" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-                <ul class="dropdown-menu border-0 p-3 rounded-0 shadow" aria-labelledby="pages">
-                  <li><a href="index.html" class="dropdown-item">About Us </a></li>
-                  <li><a href="index.html" class="dropdown-item">Shop </a></li>
-                  <li><a href="index.html" class="dropdown-item">Single Product </a></li>
-                  <li><a href="index.html" class="dropdown-item">Cart </a></li>
-                  <li><a href="index.html" class="dropdown-item">Checkout </a></li>
-                  <li><a href="index.html" class="dropdown-item">Blog </a></li>
-                  <li><a href="index.html" class="dropdown-item">Single Post </a></li>
-                  <li><a href="index.html" class="dropdown-item">Styles </a></li>
-                  <li><a href="index.html" class="dropdown-item">Contact </a></li>
-                  <li><a href="index.html" class="dropdown-item">Thank You </a></li>
-                  <li><a href="index.html" class="dropdown-item">My Account </a></li>
-                  <li><a href="index.html" class="dropdown-item">404 Error </a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-          
-          <div class="col-sm-8 col-lg-2 d-flex gap-5 align-items-center justify-content-center justify-content-sm-end">
-            <ul class="d-flex justify-content-end list-unstyled m-0">
-              <li>
-                <a href="#" class="p-2 mx-1">
-                  <svg width="24" height="24"><use xlink:href="#user"></use></svg>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="p-2 mx-1">
-                  <svg width="24" height="24"><use xlink:href="#wishlist"></use></svg>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="p-2 mx-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                  <svg width="24" height="24"><use xlink:href="#shopping-bag"></use></svg>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-        </div>
-      </div>
-    </header>
-    
-    <section style="background-image: url('images/banner-1.jpg');background-repeat: no-repeat;background-size: cover;">
+	<section style="background-image: url('/images/banner-1.jpg');background-repeat: no-repeat;background-size: cover;">
       <div class="container-lg">
         <div class="row">
           <div class="col-lg-6 pt-5 mt-5">
-            <h2 class="display-1 ls-1"><span class="fw-bold text-primary">Organic</span> Foods at your <span class="fw-bold">Doorsteps</span></h2>
-            <p class="fs-4">Dignissim massa diam elementum.</p>
+            <h2 class="display-1 ls-1"><span class="fw-bold text-primary">High Quality</span> Electric Shop <span class="fw-bold">Doorsteps</span></h2>
+            <p class="fs-4">Website cửa hàng đồ điện tử.</p>
             <div class="d-flex gap-3">
               <a href="#" class="btn btn-primary text-uppercase fs-6 rounded-pill px-4 py-3 mt-3">Start Shopping</a>
               <a href="#" class="btn btn-dark text-uppercase fs-6 rounded-pill px-4 py-3 mt-3">Join Now</a>
@@ -358,19 +302,19 @@
               <div class="col">
                 <div class="row text-dark">
                   <div class="col-auto"><p class="fs-1 fw-bold lh-sm mb-0">14k+</p></div>
-                  <div class="col"><p class="text-uppercase lh-sm mb-0">Product Varieties</p></div>
+                  <div class="col"><p class="text-uppercase lh-sm mb-0">SẢN PHẨM ĐA DẠNG</p></div>
                 </div>
               </div>
               <div class="col">
                 <div class="row text-dark">
                   <div class="col-auto"><p class="fs-1 fw-bold lh-sm mb-0">50k+</p></div>
-                  <div class="col"><p class="text-uppercase lh-sm mb-0">Happy Customers</p></div>
+                  <div class="col"><p class="text-uppercase lh-sm mb-0">KHÁCH HÀNG HÀI LÒNG</p></div>
                 </div>
               </div>
               <div class="col">
                 <div class="row text-dark">
-                  <div class="col-auto"><p class="fs-1 fw-bold lh-sm mb-0">10+</p></div>
-                  <div class="col"><p class="text-uppercase lh-sm mb-0">Store Locations</p></div>
+                  <div class="col-auto"><p class="fs-1 fw-bold lh-sm mb-0">100+</p></div>
+                  <div class="col"><p class="text-uppercase lh-sm mb-0">CỬA HÀNG UY TÍN</p></div>
                 </div>
               </div>
             </div>
@@ -517,7 +461,7 @@
 
             <div class="section-header d-flex flex-wrap justify-content-between my-4">
               
-              <h2 class="section-title">Best selling products</h2>
+              <h2 class="section-title">Sản phẩm bán chạy nhất</h2>
 
               <div class="d-flex align-items-center">
                 <a href="#" class="btn btn-primary rounded-1">View All</a>
@@ -891,8 +835,8 @@
         </div>
       </div>
     </section>
-
-    <section class="py-3">
+<!-- BANNER TITTLE-->
+ <!--     <section class="py-3">
       <div class="container-lg">
         <div class="row">
           <div class="col-md-12">
@@ -930,12 +874,12 @@
               </div>
 
             </div>
-            <!-- / Banner Blocks -->
+            / Banner Blocks
               
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section id="featured-products" class="products-carousel">
       <div class="container-lg overflow-hidden py-5">
@@ -944,7 +888,7 @@
 
             <div class="section-header d-flex flex-wrap justify-content-between my-4">
               
-              <h2 class="section-title">Featured products</h2>
+              <h2 class="section-title">Shop Tốt Nhất</h2>
 
               <div class="d-flex align-items-center">
                 <a href="#" class="btn btn-primary me-2">View All</a>
@@ -2056,15 +2000,8 @@
           <div class="container">
             <div class="row justify-content-center align-items-center">
               <div class="col-md-4">
-                <h2 class="mt-5">Download Organic App</h2>
-                <p>Online Orders made easy, fast and reliable</p>
                 <div class="d-flex gap-2 flex-wrap mb-5">
-                  <a href="#" title="App store"><img src="images/img-app-store.png" alt="app-store"></a>
-                  <a href="#" title="Google Play"><img src="images/img-google-play.png" alt="google-play"></a>
                 </div>
-              </div>
-              <div class="col-md-5">
-                <img src="images/banner-onlineapp.png" alt="phone" class="img-fluid">
               </div>
             </div>
           </div>
@@ -2072,31 +2009,6 @@
         
       </div>
     </section>
-
-    <section class="py-4">
-      <div class="container-lg">
-        <h2 class="my-4">People are also looking for</h2>
-        <a href="#" class="btn btn-warning me-2 mb-2">Blue diamon almonds</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Angie’s Boomchickapop Corn</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Salty kettle Corn</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Chobani Greek Yogurt</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Sweet Vanilla Yogurt</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Foster Farms Takeout Crispy wings</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Warrior Blend Organic</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Chao Cheese Creamy</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Chicken meatballs</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Blue diamon almonds</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Angie’s Boomchickapop Corn</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Salty kettle Corn</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Chobani Greek Yogurt</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Sweet Vanilla Yogurt</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Foster Farms Takeout Crispy wings</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Warrior Blend Organic</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Chao Cheese Creamy</a>
-        <a href="#" class="btn btn-warning me-2 mb-2">Chicken meatballs</a>
-      </div>
-    </section>
-
     <section class="py-5">
       <div class="container-lg">
         <div class="row row-cols-1 row-cols-sm-3 row-cols-lg-5">
@@ -2287,18 +2199,6 @@
         </div>
       </div>
     </footer>
-    <div id="footer-bottom">
-      <div class="container-lg">
-        <div class="row">
-          <div class="col-md-6 copyright">
-            <p>© 2024 Organic. All rights reserved.</p>
-          </div>
-          <div class="col-md-6 credit-link text-start text-md-end">
-            <p>HTML Template by <a href="https://templatesjungle.com/">TemplatesJungle</a> Distributed By <a href="https://themewagon.com">ThemeWagon</a> </p>
-          </div>
-        </div>
-      </div>
-    </div>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
