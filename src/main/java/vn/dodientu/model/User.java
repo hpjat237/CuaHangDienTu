@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -25,13 +29,11 @@ public class User {
     private String phone;
     private String address;
     private String image_url;
+    private String resetCode;
+    private Instant resetCodeExpiry;
 
-    // Constructor có tham số
-    public User(String email) {
-        this.email = email;
-    }
-    public User(String username,String password) {
-        this.username = username;
-        this.password = password;
-    }
+    @ManyToOne(fetch = FetchType.EAGER) // One role per user, but roles can be shared among users
+    @JoinColumn(name = "role_id") // Specifies the foreign key column
+    private Role role;
+
 }

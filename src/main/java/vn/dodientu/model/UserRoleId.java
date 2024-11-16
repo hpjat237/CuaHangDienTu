@@ -13,8 +13,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class UserRoleId implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-	private Long userId;
+    private Long userId;
     private Long roleId;
 
     // Constructors, getters, setters

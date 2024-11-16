@@ -13,8 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderShipperId implements Serializable {
-    private static final long serialVersionUID = 1L;
-	private long orderId;
+    private long orderId;
     private long shipperId;
 
     @Override
