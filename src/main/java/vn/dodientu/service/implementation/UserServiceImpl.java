@@ -85,4 +85,38 @@ public class UserServiceImpl implements IUserService, ICrudService<User, Long> {
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
+
+    @Override
+    public void registerUser(String username, String email, String password) {
+        // Kiểm tra xem người dùng đã tồn tại chưa
+        if (userRepository.existsByUsername(username)) {
+            throw new IllegalArgumentException("Username already exists");
+        }
+        
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+
+        // Mã hóa mật khẩu
+        String encodedPassword = passwordEncoder.encode(password);
+
+        // Tạo đối tượng người dùng mới
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setEmail(email);
+        newUser.setPassword(encodedPassword);
+
+        // Lưu người dùng vào cơ sở dữ liệu
+        userRepository.save(newUser);
+    }
+
+    @Override
+    public boolean userExists(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    @Override
+    public boolean emailExists(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }

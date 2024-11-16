@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     logger.debug("Configuring authorization rules...");
                     auth
-                            .requestMatchers("/home/**", "/auth/**", "/", "/swagger-ui/**").permitAll()  // Các trang công khai
+                            .requestMatchers("/", "/WEB-INF/jsp/**", "/auth/**", "/", "/swagger-ui/**").permitAll()  // Các trang công khai
                             .requestMatchers("/user/**").hasRole("User")  // Trang dành cho USER
                             .requestMatchers("/admin/**").hasRole("Admin")  // Trang dành cho ADMIN
                             .requestMatchers("/manager/**").hasRole("Manager")   // Trang dành cho MANAGER
