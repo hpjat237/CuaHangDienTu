@@ -94,6 +94,10 @@ let menu, animate;
     accordionTriggerEl.addEventListener('hide.bs.collapse', accordionActiveFunction);
   });
 
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize any JavaScript functionality
+});
+
   // Auto update layout based on screen size
   window.Helpers.setAutoUpdate(true);
 

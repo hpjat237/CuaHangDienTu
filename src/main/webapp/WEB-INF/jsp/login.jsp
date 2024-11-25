@@ -10,6 +10,12 @@
 <body>
     <div class="container">
         <h2 class="text-center mt-5">Login</h2>
+
+        <!-- Hiển thị thông báo lỗi nếu có -->
+        <div class="alert alert-danger" role="alert" style="${not empty error ? '' : 'display:none;'}">
+		    ${error}
+		</div>
+
         <form action="/login" method="post" class="mt-4">
             <div class="form-group">
                 <label for="username">Username</label>
@@ -22,10 +28,10 @@
             <button type="submit" class="btn btn-primary mt-3">Login</button>
         </form>
         <div class="mt-3">
-            <p>Don't have an account? <a href="/auth/register">Register here</a></p>
+            <p>Don't have an account? <a href="/register">Register here</a></p>
         </div>
         <div class="mt-3">
-            <p>Forgot password? <a href="/auth/forgot-password">Click here</a></p>
+            <p>Forgot password? <a href="/forgot-password">Click here</a></p>
         </div>
     </div>
 

@@ -16,11 +16,10 @@ import java.util.function.Function;
 public class JwtUtil {
 
     @Value("${secret.key}")
-    private String secretKey; // Use a strong key and keep it safe
+    private String secretKey;
 
     @Value("${expiration.ms}")
     private int tokenExpirationMs;
-
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -59,7 +58,6 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
-
 
     public Boolean validateToken(String token, String email) {
         final String extractedUsername = extractUsername(token);

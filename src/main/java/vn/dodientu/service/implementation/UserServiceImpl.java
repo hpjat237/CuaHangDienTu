@@ -9,9 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 import vn.dodientu.model.User;
 import vn.dodientu.repository.UserRepository;
 import vn.dodientu.service.interfaces.ICrudService;
+import vn.dodientu.service.interfaces.IEmailService;
+import vn.dodientu.service.interfaces.IRedisService;
 import vn.dodientu.service.interfaces.IUserService;
 
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @Transactional // Đảm bảo tất cả các phương thức đều được thực hiện trong một transaction
@@ -23,7 +26,12 @@ public class UserServiceImpl implements IUserService, ICrudService<User, Long> {
     @Autowired
     private UserRepository userRepository;
 
-
+    @Autowired
+    private IRedisService redisService;
+    
+    @Autowired
+    private IEmailService emailService;
+    
     @Override
     public User add(User entity) {
         String encodedPassword = passwordEncoder.encode(entity.getPassword());
@@ -87,27 +95,25 @@ public class UserServiceImpl implements IUserService, ICrudService<User, Long> {
     }
 
     @Override
-    public void registerUser(String username, String email, String password) {
+    public void registerUser(User user) {
         // Kiểm tra xem người dùng đã tồn tại chưa
-        if (userRepository.existsByUsername(username)) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             throw new IllegalArgumentException("Username already exists");
         }
         
-        if (userRepository.existsByEmail(email)) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
 
         // Mã hóa mật khẩu
-        String encodedPassword = passwordEncoder.encode(password);
-
-        // Tạo đối tượng người dùng mới
-        User newUser = new User();
-        newUser.setUsername(username);
-        newUser.setEmail(email);
-        newUser.setPassword(encodedPassword);
-
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        
         // Lưu người dùng vào cơ sở dữ liệu
-        userRepository.save(newUser);
+        userRepository.save(user);
+        
+        // Gửi OTP qua email
+        sendOtp(user.getEmail());
     }
 
     @Override
@@ -118,5 +124,24 @@ public class UserServiceImpl implements IUserService, ICrudService<User, Long> {
     @Override
     public boolean emailExists(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public void sendOtp(String email) {
+        // Tạo mã OTP
+        String otp = generateOtp();
+
+        // Lưu OTP vào Redis với thời gian hết hạn 5 phút
+        redisService.saveOtp(email, otp, 5);
+
+        // Gửi OTP qua email
+        String subject = "OTP Verification Code";
+        String content = "Your OTP verification code is: " + otp;
+        emailService.sendEmail(email, subject, content);
+    }
+
+    private String generateOtp() {
+        Random rand = new Random();
+        return String.format("%06d", rand.nextInt(999999));
     }
 }

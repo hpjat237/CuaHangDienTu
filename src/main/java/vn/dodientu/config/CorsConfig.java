@@ -16,4 +16,3 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowCredentials(true); // Cho phép gửi thông tin đăng nhập (cookie, HTTP authentication)
     }
 }
-

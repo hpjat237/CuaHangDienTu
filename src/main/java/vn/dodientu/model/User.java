@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vn.dodientu.repository.RoleRepository;
 
 import java.time.Instant;
 import java.util.HashSet;
@@ -31,9 +32,19 @@ public class User {
     private String image_url;
     private String resetCode;
     private Instant resetCodeExpiry;
+    @Column(name = "is_verified")
+    private Boolean isVerified = false; // Mặc định là false, khi chưa xác thực
 
     @ManyToOne(fetch = FetchType.EAGER) // One role per user, but roles can be shared among users
     @JoinColumn(name = "role_id") // Specifies the foreign key column
     private Role role;
+   
+ // Gán role bằng tên role
+    public void setRole(String roleName, RoleRepository roleRepository) {
+        this.role = roleRepository.findByName(roleName)
+                .orElseThrow(() -> new IllegalArgumentException("Role not found: " + roleName));
+    }
+    
+    
 
 }

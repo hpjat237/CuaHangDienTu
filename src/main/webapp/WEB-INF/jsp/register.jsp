@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <h2 class="text-center mt-5">Register</h2>
-        <form action="/register" method="post" class="mt-4">
+        <form action="/auth/register" method="post" class="mt-4">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
@@ -27,10 +27,21 @@
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required>
             </div>
+
+            <!-- Role selection -->
+            <div class="form-group mt-3">
+                <label for="role">Select Role</label>
+                <select class="form-control" id="role" name="role">
+                    <option value="customer">Customer</option>
+                    <option value="manager">Shop Manager</option>
+                    <option value="shipper">Shipper</option>
+                </select>
+            </div>
+
             <button type="submit" class="btn btn-success mt-3">Register</button>
         </form>
         <div class="mt-3">
-            <p>Already have an account? <a href="/auth/login">Login here</a></p>
+            <p>Already have an account? <a href="/login">Login here</a></p>
         </div>
     </div>
 

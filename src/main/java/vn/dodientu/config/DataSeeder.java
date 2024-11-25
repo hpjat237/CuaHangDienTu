@@ -21,26 +21,23 @@ public class DataSeeder {
         return args -> {
 
             // Seed roles if they don't exist
-            if (roleRepository.findByName("Admin").isEmpty()) {
+            if (roleRepository.findByName("admin").isEmpty()) {
                 Role adminRole = new Role();
-                adminRole.setName("Admin");
-                adminRole.setDescription("Administrator role with full permissions");
+                adminRole.setName("admin");
                 roleRepository.save(adminRole);
                 System.out.println("Admin role seeded");
             }
 
-            if (roleRepository.findByName("Customer").isEmpty()) {
+            if (roleRepository.findByName("customer").isEmpty()) {
                 Role customerRole = new Role();
-                customerRole.setName("Customer");
-                customerRole.setDescription("Customer role with basic permissions");
+                customerRole.setName("customer");
                 roleRepository.save(customerRole);
                 System.out.println("Customer role seeded");
             }
 
-            if (roleRepository.findByName("Manager").isEmpty()) {
+            if (roleRepository.findByName("manager").isEmpty()) {
                 Role managerRole = new Role();
-                managerRole.setName("Manager");
-                managerRole.setDescription("Manager role with intermediate permissions");
+                managerRole.setName("manager");
                 roleRepository.save(managerRole);
                 System.out.println("Manager role seeded");
             }

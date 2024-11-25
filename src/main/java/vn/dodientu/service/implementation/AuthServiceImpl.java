@@ -8,7 +8,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import vn.dodientu.Jwt.JwtUtil;
 import vn.dodientu.dto.LoginRequest;
@@ -32,112 +34,74 @@ public class AuthServiceImpl implements IAuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
-    @Value("${reset.code.duration}")
-    private String resetCodeDuration;
+    @Autowired
+    private PasswordEncoder passwordEncoder;  // Tiêm PasswordEncoder vào đây
 
     @Override
     public Response login(LoginRequest request) {
-        try{
-        Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-
-        // Set authentication in the context
-        SecurityContextHolder.getContext().setAuthentication(auth);
-
-        // Generate JWT token
-        String jwtToken = jwtUtil.generateToken(auth);
-
-        // Create a response DTO with the token
-        Response response = new Response();
-        response.setResult(jwtToken);
-        response.setMessage("Login successful");
-
-        return response;
-
-    } catch (BadCredentialsException e) {
-        // Return error response for incorrect credentials
-            throw new BadCredentialsException("Invalid email or password", e);
-        }
-    }
-
-
-    @Override
-    public Response register(User user) {
-        return null;
-    }
-
-    @Override
-    public Response requestPasswordReset(String email) {
-        Optional<User> optUser = userRepository.findByEmail(email);
-        if (optUser.isEmpty()) {
-            throw new IllegalArgumentException("User not found with the provided email");
-        }
-        try{
-            User user = optUser.get();
-            String code = generateRandomString(8);
-            user.setPassword(code);
-            user.setResetCodeExpiry(Instant.now().plus(Duration.ofMinutes(Integer.parseInt(resetCodeDuration))));
-            userRepository.save(user);
-
-            emailService.sendEmail(email,"Password Reset Request" ,generateResetPasswordEmailBody(code, Integer.parseInt(resetCodeDuration)));
-            return new Response(code,"Account sent to " + email + ". Please check your mailbox.");
-        }catch (Exception e){
-            return new Response(e.getMessage(),"An error occurred while trying to send email.");
-        }
-
-    }
-
-    @Override
-    public Response resetPassword(String email, String resetCode, String password) {
-        Optional<User> optUser = userRepository.findByResetCode(resetCode);
-        if (optUser.isEmpty()) {
-            throw new IllegalArgumentException("Invalid reset code. Please check again.");
-        }
         try {
-            User user = optUser.get();
-
-            if (Instant.now().isAfter(user.getResetCodeExpiry())) {
-                user.setResetCode(null);
-                user.setResetCodeExpiry(null);
-                userRepository.save(user);
-                return new Response(null, "Reset code expired. Please request another code.");
+            // Kiểm tra username hoặc email
+            Optional<User> userOpt = userRepository.findByUsernameOrEmail(request.getUsername(), request.getUsername());
+            if (userOpt.isEmpty()) {
+                throw new BadCredentialsException("Tài khoản sai");
             }
 
-            user.setPassword(password);
-            userRepository.save(user);
-            return new Response(null, "Password successfully changed.");
-        }catch(Exception e){
-            return new Response(e.getMessage(), "An error occurred while attempting to reset your password. Please try again.");
+            User user = userOpt.get();
+
+            // So sánh mật khẩu nhập vào với mật khẩu đã mã hóa trong cơ sở dữ liệu
+            if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+                throw new BadCredentialsException("Mật khẩu sai");
+            }
+
+            // Xác thực thông tin đăng nhập
+            Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    user.getUsername(),  // Đảm bảo truyền username (dù đăng nhập bằng email)
+                    request.getPassword()
+                )
+            );
+
+            // Set Authentication vào Security Context
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
+            // Tạo token JWT
+            String jwtToken = jwtUtil.generateToken(auth);
+
+            // Lấy vai trò người dùng
+            String role = auth.getAuthorities().stream()
+                              .map(GrantedAuthority::getAuthority)
+                              .findFirst()
+                              .orElse("ROLE_USER");
+
+            // Tạo response chứa JWT và vai trò
+            Response response = new Response();
+            response.setResult(jwtToken);
+            response.setRole(role);  // Thêm vai trò vào trong Response
+            response.setMessage("Login successful");
+
+            return response;
+
+        } catch (BadCredentialsException e) {
+            throw new BadCredentialsException("Invalid credentials", e);	
         }
     }
 
-    private String generateRandomString(int length) {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        StringBuilder randomString = new StringBuilder();
-        SecureRandom random = new SecureRandom();
 
-        for (int i = 0; i < length; i++) {
-            int index = random.nextInt(characters.length());
-            randomString.append(characters.charAt(index));
-        }
+	@Override
+	public Response register(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-        return randomString.toString();
-    }
+	@Override
+	public Response requestPasswordReset(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-
-    private String generateResetPasswordEmailBody(String token, int duration) {
-        return """
-        <html>
-            <body>
-                <h2>Password Reset Request</h2>
-                <p>Your Password reset code is: %s</p>
-                <p>The code will expire in %s minutes</p>
-            </body>
-        </html>
-        """.formatted(token, duration);
-    }
+	@Override
+	public Response resetPassword(String email, String resetCode, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

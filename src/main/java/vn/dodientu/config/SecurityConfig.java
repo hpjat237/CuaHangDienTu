@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -39,11 +40,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     logger.debug("Configuring authorization rules...");
                     auth
-                            .requestMatchers("/", "/WEB-INF/jsp/**", "/auth/**", "/", "/swagger-ui/**").permitAll()  // Các trang công khai
-                            .requestMatchers("/user/**").hasRole("User")  // Trang dành cho USER
-                            .requestMatchers("/admin/**").hasRole("Admin")  // Trang dành cho ADMIN
-                            .requestMatchers("/manager/**").hasRole("Manager")   // Trang dành cho MANAGER
-                            .requestMatchers("/shipper/**").hasRole("Shipper") // Trang dành cho SHIPPER
+                            .requestMatchers("/**", "/WEB-INF/jsp/**", "/auth/**", "/swagger-ui/**").permitAll()  // Các trang công khai
+                            .requestMatchers("/customer/**").hasRole("customer")  // Trang dành cho USER
+                            .requestMatchers("/admin/**").hasRole("admin")  // Trang dành cho ADMIN
+                            .requestMatchers("/manager/**").hasRole("manager")   // Trang dành cho MANAGER
+                            .requestMatchers("/shipper/**").hasRole("shipper") // Trang dành cho SHIPPER
                             .anyRequest().authenticated();  // Bảo vệ tất cả các request còn lại
                 })
                 .userDetailsService(userDetailServiceImpl)
@@ -77,8 +78,11 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailServiceImpl).passwordEncoder(passwordEncoder());
+    }
 }
-
 
 
 

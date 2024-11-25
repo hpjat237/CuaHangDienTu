@@ -1,17 +1,32 @@
 package vn.dodientu.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import vn.dodientu.Jwt.JwtUtil;
 import vn.dodientu.dto.LoginRequest;
+import vn.dodientu.dto.Response;
+import vn.dodientu.model.User;
+import vn.dodientu.repository.RoleRepository;
+import vn.dodientu.repository.UserRepository;
 import vn.dodientu.service.interfaces.IAuthService;
+import vn.dodientu.service.interfaces.IRedisService;
 import vn.dodientu.service.interfaces.IUserService;
 
 @Controller
-@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
@@ -19,9 +34,15 @@ public class AuthController {
 
     @Autowired
     private IAuthService authService;
-
+    
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private IRedisService redisService;
+    
+    @Autowired
+    private RoleRepository roleRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     // Trang đăng nhập
     @GetMapping("/login")
@@ -33,38 +54,114 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model) {
         try {
+            // Gọi dịch vụ để xử lý đăng nhập
             LoginRequest loginRequest = new LoginRequest(username, password);
-            authService.login(loginRequest); // Giả sử method login() trong IAuthService xử lý đăng nhập
-            return "redirect:/"; // Đăng nhập thành công, chuyển đến trang chủ hoặc trang bạn muốn
-        } catch (BadCredentialsException e) {
-            model.addAttribute("error", "Invalid username or password");
-            return "login"; // Quay lại trang login nếu đăng nhập thất bại
-        }
-    }
+            Response response = authService.login(loginRequest);
 
-    // Trang đăng ký
-    @GetMapping("/register")
-    public String registerPage() {
-        return "register"; // Chuyển tới register.jsp
-    }
+            // Kiểm tra nếu login thành công, trả về token hoặc thông báo thành công
+            if (response.getResult() != null) {
+                model.addAttribute("jwtToken", response.getResult());
 
-    // Xử lý yêu cầu đăng ký
-    @PostMapping("/register")
-    public String register(@RequestParam String username, @RequestParam String email, 
-                           @RequestParam String password, @RequestParam String confirmPassword, Model model) {
-        try {
-            // Kiểm tra xem mật khẩu và xác nhận mật khẩu có trùng khớp không
-            if (!password.equals(confirmPassword)) {
-                model.addAttribute("error", "Passwords do not match");
-                return "register"; // Quay lại trang register nếu mật khẩu không trùng khớp
+                // Chuyển hướng dựa trên vai trò người dùng
+                switch (response.getRole()) {
+                    case "admin":
+                        return "redirect:/admin/home/**";  // Chuyển hướng đến trang admin
+                    case "manager":
+                        return "redirect:/manager/home/**";  // Chuyển hướng đến trang manager
+                    case "shipper":
+                        return "redirect:/shipper/home/**";  // Chuyển hướng đến trang shipper
+                    case "customer":
+                        return "redirect:/customer/home/**";  // Mặc định chuyển hướng đến trang customer
+                }
+            } else {
+                model.addAttribute("error", response.getMessage());
+                return "login";  // Quay lại trang login nếu có lỗi
             }
-            userService.registerUser(username, email, passwordEncoder.encode(password));
-            return "redirect:/auth/login"; // Sau khi đăng ký thành công, chuyển tới trang đăng nhập
+
         } catch (Exception e) {
-            model.addAttribute("error", "Registration failed: " + e.getMessage());
-            return "register"; // Quay lại trang register nếu có lỗi
+            model.addAttribute("error", e.getCause());
+            return "login";  // Quay lại trang login nếu có lỗi
         }
+		return null;
     }
+
+	
+	    @GetMapping("/register")
+	    public String registerPage() {
+	        return "register";
+	    }
+
+    // Phương thức đăng ký
+    @PostMapping("/register")
+    public String registerUser(@RequestParam String username,
+                               @RequestParam String email,
+                               @RequestParam String password,
+                               @RequestParam String confirmPassword,
+                               @RequestParam String role,  // Vai trò người dùng
+                               Model model) {
+
+        // Kiểm tra nếu mật khẩu và xác nhận mật khẩu không khớp
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match!");
+            return "register";  // Trả về lại trang đăng ký nếu mật khẩu không khớp
+        }
+
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setRole(role, roleRepository);  // Gán vai trò người dùng chọn
+
+        // Đăng ký người dùng và xử lý OTP trong service
+        userService.registerUser(user);
+
+        // Chuyển hướng đến trang nhập OTP
+        model.addAttribute("email", email);
+        return "confirm-email"; // Trang để người dùng nhập OTP
+    }
+    
+    @GetMapping("/confirm-email")
+    public String confirmEmailPage() {
+        return "confirm-email";
+    }
+
+
+    @PostMapping("/confirm-email")
+    public String verifyOtp(@RequestParam String email,
+                            @RequestParam String otp,
+                            Model model) {
+
+        // Lấy OTP từ Redis
+        String cachedOtp = redisService.getOtp(email);
+
+        // Kiểm tra OTP hợp lệ
+        if (cachedOtp == null) {
+            // Xóa người dùng khỏi database
+            userRepository.findByEmail(email).ifPresent(userRepository::delete);
+            model.addAttribute("error", "OTP đã hết bạn. Xin vui lòng đăng ký lại.");
+            return "register"; // Chuyển về trang đăng ký
+        }
+
+        if (!cachedOtp.equals(otp)) {
+            model.addAttribute("email", email); // Giữ email để người dùng không phải nhập lại
+            model.addAttribute("error", "Sai OTP, xin vui lòng nhập lại");
+            return "confirm-email"; // Quay lại trang nhập OTP
+        }
+
+        // Xác thực thành công, xóa OTP khỏi Redis
+        redisService.deleteOtp(email);
+
+        // Cập nhật trạng thái người dùng (nếu cần)
+        User user = userRepository.findByEmail(email).orElse(null);
+        if (user != null) {
+            user.setIsVerified(true); // Đánh dấu là đã xác thực
+            userService.update(user);
+        }
+
+        model.addAttribute("message", "Your email has been verified successfully.");
+        return "login"; // Chuyển hướng đến trang đăng nhập
+    }
+
     
     @GetMapping("/forgot-password")
     public String forgotpasswordPage() {
