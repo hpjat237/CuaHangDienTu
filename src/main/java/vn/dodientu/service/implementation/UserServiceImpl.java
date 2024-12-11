@@ -6,6 +6,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import vn.dodientu.dto.UserDetailsImpl;
 import vn.dodientu.model.User;
 import vn.dodientu.repository.UserRepository;
 import vn.dodientu.service.interfaces.ICrudService;
@@ -119,4 +121,33 @@ public class UserServiceImpl implements IUserService, ICrudService<User, Long> {
     public boolean emailExists(String email) {
         return userRepository.existsByEmail(email);
     }
+ // Lấy thông tin người dùng theo email
+    public UserDetailsImpl getUserProfile(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            UserDetailsImpl userDTO = new UserDetailsImpl();
+            userDTO.setEmail(user.getEmail());
+            userDTO.setFullName(user.getFullName());
+            userDTO.setPhoneNumber(user.getPhoneNumber());
+            userDTO.setAvatarUrl(user.getAvatarUrl());
+            return userDTO;
+        } else {
+            throw new RuntimeException("User not found with email: " + email);
+        }
+    }
+    // Cập nhật thông tin người dùng
+    public void updateUserProfile(UserDetailsImpl userDTO) {
+        Optional<User> userOptional = userRepository.findByEmail(userDTO.getEmail());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setFullName(userDTO.getFullName());
+            user.setPhoneNumber(userDTO.getPhoneNumber());
+            user.setAvatarUrl(userDTO.getAvatarUrl());
+            userRepository.save(user);
+        } else {
+            throw new RuntimeException("User not found with email: " + userDTO.getEmail());
+        }
+    }
+
 }

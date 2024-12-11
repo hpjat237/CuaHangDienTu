@@ -1,5 +1,7 @@
 package vn.dodientu.service.interfaces;
 
+import vn.dodientu.dto.UserDetailsImpl;
+
 public interface IUserService {
 
     // Phương thức để đăng ký người dùng mới
@@ -10,4 +12,6 @@ public interface IUserService {
 
     // Phương thức để kiểm tra email người dùng đã tồn tại chưa
     boolean emailExists(String email);
+    void updateUserProfile(UserDetailsImpl userDTO);
+    UserDetailsImpl getUserProfile(String email);
 }

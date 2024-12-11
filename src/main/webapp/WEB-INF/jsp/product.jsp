@@ -11,7 +11,6 @@
     <div class="container">
         <h1 class="text-center mt-5">Product Page</h1>
         <p class="lead text-center">Here is a list of products.</p>
-        
         <!-- Displaying a sample product -->
         <div class="product">
             <h2>Product Name: Example Product</h2>

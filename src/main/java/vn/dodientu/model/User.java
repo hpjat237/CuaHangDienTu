@@ -35,5 +35,35 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER) // One role per user, but roles can be shared among users
     @JoinColumn(name = "role_id") // Specifies the foreign key column
     private Role role;
+    
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+    public String getPhoneNumber() {
+        return phone;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phone = phoneNumber;
+    }
+
+    public String getAvatarUrl() {
+        return image_url;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.image_url = avatarUrl;
+    }
 }

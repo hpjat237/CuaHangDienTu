@@ -23,6 +23,13 @@
             <!-- Link to controller to show product page -->
             <a href="/product" class="btn btn-success">Go to Product Page</a>
         </div>
+        <h1>Sản phẩm nổi bật</h1>
+    	<div id="top-products">
+        <div th:each="product : ${topProducts}">
+            <h2 th:text="${product.name}"></h2>
+            <img th:src="${product.imageUrl}" alt="Product Image">
+            <p th:text="${product.price}"></p>
+        </div>
     </div>
     
     <%@ include file="/WEB-INF/jsp/footer.jsp" %>

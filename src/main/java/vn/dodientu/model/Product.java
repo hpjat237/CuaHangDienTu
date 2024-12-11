@@ -31,6 +31,7 @@ public class Product {
     private Double price;
     private Integer quantity;
     private String imageUrl;
+    private int popularity;
 
     @Column(name = "created_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
