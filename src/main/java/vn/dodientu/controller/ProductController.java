@@ -1,33 +1,72 @@
 package vn.dodientu.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import vn.dodientu.model.Product;
-import vn.dodientu.service.implementation.ProductServiceImpl;
+import vn.dodientu.service.interfaces.IProductService;
 
-@RestController
+@Controller
 @RequestMapping("/product")
 public class ProductController {
 
     @Autowired
-    private ProductServiceImpl productService;
+    private IProductService productService;
     
-    @GetMapping("/product")
+    @GetMapping()
     public String showProductPage() {
-        // Trả về tên của view (product.jsp)
-        return "product";  // Spring Boot sẽ tìm product.jsp trong /WEB-INF/jsp/
+        
+        return "seller/product-list";  
     }
 
-    // Phương thức thêm sản phẩm
-    @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        // Lưu sản phẩm mới vào database thông qua service
-        Product savedProduct = productService.saveProduct(product);
-        
-        // Trả về sản phẩm đã lưu cùng với status CREATED
-        return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
-    }
+    @GetMapping("/list")
+	public String listProduct(Model model) {
+		List<Product> products = productService.getAllProducts();
+		model.addAttribute("products", products);
+		return "seller/product/list";
+	}
+
+	@GetMapping("/{id}")
+	public String getProductById(@PathVariable Long id, Model model) {
+		Product product = productService.getProductById(id);
+		model.addAttribute("product", product);
+		return "product-detail";
+	}
+	
+	@GetMapping("/add")
+	public String createProductPage(Model model) {
+		model.addAttribute("product", new Product());
+		return "seller/product/form";
+	}
+
+	@PostMapping("/add")
+	public String createProduct(@ModelAttribute Product product) {
+		productService.createProduct(product);
+		return "redirect:/product/list";
+	}
+
+	@GetMapping("/update/{id}")
+	public String updateProductPage(@PathVariable Long id, Model model) {
+		Product product = productService.getProductById(id);
+		model.addAttribute("product", product);
+		return "seller/product/form";
+	}
+
+	@PostMapping("/update/{id}")
+	public String updateProduct(@PathVariable Long id,@ModelAttribute Product product) {
+		productService.updateProduct(id, product);
+		return "redirect:/seller/product/list";
+	}
+
+	@GetMapping("/delete/{id}")
+	public String deleteProduct(@PathVariable Long id) {
+		productService.deleteProduct(id);
+		return "redirect:/seller/product/list";
+	}
+    
+    
 }
