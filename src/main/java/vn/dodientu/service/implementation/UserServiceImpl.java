@@ -121,33 +121,24 @@ public class UserServiceImpl implements IUserService, ICrudService<User, Long> {
     public boolean emailExists(String email) {
         return userRepository.existsByEmail(email);
     }
- // Lấy thông tin người dùng theo email
-    public UserDetailsImpl getUserProfile(String email) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            UserDetailsImpl userDTO = new UserDetailsImpl();
-            userDTO.setEmail(user.getEmail());
-            userDTO.setFullName(user.getFullName());
-            userDTO.setPhoneNumber(user.getPhoneNumber());
-            userDTO.setAvatarUrl(user.getAvatarUrl());
-            return userDTO;
-        } else {
-            throw new RuntimeException("User not found with email: " + email);
-        }
+    // Lấy thông tin người dùng từ cơ sở dữ liệu và trả về UserDTO
+    public User getUserDTO(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        return convertToDTO(user);
     }
-    // Cập nhật thông tin người dùng
-    public void updateUserProfile(UserDetailsImpl userDTO) {
-        Optional<User> userOptional = userRepository.findByEmail(userDTO.getEmail());
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setFullName(userDTO.getFullName());
-            user.setPhoneNumber(userDTO.getPhoneNumber());
-            user.setAvatarUrl(userDTO.getAvatarUrl());
-            userRepository.save(user);
-        } else {
-            throw new RuntimeException("User not found with email: " + userDTO.getEmail());
-        }
+ // Cập nhật thông tin người dùng
+    public void updateUser(Long id, User userDTO) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setFullName(userDTO.getFullName());
+        user.setEmail(userDTO.getEmail());
+        user.setPhone(userDTO.getPhone());
+        user.setAvatarUrl(userDTO.getAvatarUrl());
+        userRepository.save(user);
+    }
+
+    // Chuyển đổi từ User Entity sang UserDTO
+    public User convertToDTO(User user) {
+        return new User(user.getFullName(), user.getEmail(), user.getPhone(), user.getAvatarUrl());
     }
 
 }

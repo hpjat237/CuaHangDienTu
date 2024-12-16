@@ -13,7 +13,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")  // Đặt tên bảng trong cơ sở dữ liệu
 public class User {
@@ -36,6 +35,15 @@ public class User {
     @JoinColumn(name = "role_id") // Specifies the foreign key column
     private Role role;
     
+    public User() {}
+
+    public User(String name, String email, String phone, String avatar) {
+        this.fullName = name;
+        this.email = email;
+        this.phone = phone;
+        this.image_url = avatar;
+    }
+    
     public String getEmail() {
         return email;
     }
@@ -53,6 +61,13 @@ public class User {
     }
     public String getPhoneNumber() {
         return phone;
+    }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setPhoneNumber(String phoneNumber) {

@@ -12,6 +12,5 @@ public interface IUserService {
 
     // Phương thức để kiểm tra email người dùng đã tồn tại chưa
     boolean emailExists(String email);
-    void updateUserProfile(UserDetailsImpl userDTO);
-    UserDetailsImpl getUserProfile(String email);
+   
 }

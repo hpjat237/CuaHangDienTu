@@ -21,21 +21,21 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
     
- // Hiển thị thông tin cá nhân
+    // Hiển thị thông tin cá nhân của người dùng
     @GetMapping("/profile")
-    public String viewProfile(Model model) {
-        // Giả sử email của người dùng là user@example.com
-        String email = "user@example.com";
-        UserDetailsImpl userDTO = userService.getUserProfile(email);
-        model.addAttribute("user", userDTO);
-        return "profile";
+    public String getUserProfile(@RequestParam Long id, Model model) {
+        User userDTO = userService.getUserDTO(id);
+        model.addAttribute("user", userDTO); // Truyền dữ liệu UserDTO vào model
+        return "customer/profile"; // Chuyển tới trang profile.jsp
     }
 
     // Cập nhật thông tin cá nhân
     @PostMapping("/updateProfile")
-    public String updateProfile(UserDetailsImpl updatedUser) {
-        userService.updateUserProfile(updatedUser);
-        return "redirect:/profile";
+    public String updateUserProfile(@RequestParam Long id, User userDTO, Model model) {
+        userService.updateUser(id, userDTO);
+        model.addAttribute("user", userDTO); // Truyền lại thông tin sau khi cập nhật
+        model.addAttribute("message", "Profile updated successfully");
+        return "customer/profile"; // Sau khi cập nhật, quay lại trang profile.jsp
     }
 
 }

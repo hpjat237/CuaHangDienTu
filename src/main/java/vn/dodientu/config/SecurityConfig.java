@@ -40,7 +40,7 @@ public class SecurityConfig {
                     logger.debug("Configuring authorization rules...");
                     auth
                             .requestMatchers("/", "/WEB-INF/jsp/**", "/auth/**", "/", "/swagger-ui/**").permitAll()  // Các trang công khai
-                            .requestMatchers("/user/**","/user/profile/**").hasRole("User")  // Trang dành cho USER
+                            .requestMatchers("/","/user/**","/user/profile/**","/user/updateProfile/**").hasRole("User")  // Trang dành cho USER
                             .requestMatchers("/admin/**").hasRole("Admin")  // Trang dành cho ADMIN
                             .requestMatchers("/manager/**").hasRole("Manager")   // Trang dành cho MANAGER
                             .requestMatchers("/shipper/**").hasRole("Shipper") // Trang dành cho SHIPPER
