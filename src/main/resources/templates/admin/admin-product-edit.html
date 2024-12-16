@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{admin/layout-admin.html}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh sửa Sản phẩm</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional: Custom CSS -->
+    <style>
+        .form-group label {
+            font-weight: bold;
+        }
+        .container {
+            max-width: 800px;
+        }
+
+        .choose-file-button {
+            background-color: #007bff; /* Bright blue color */
+            color: white;
+            font-weight: bold;
+            padding: 12px 24px; /* Larger padding for better clickability */
+            border: 2px solid #0056b3; /* Darker blue border */
+            border-radius: 8px; /* Slightly rounded corners */
+            font-size: 18px; /* Larger font size */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Smooth transitions */
+        }
+
+        .choose-file-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            transform: scale(1.05); /* Slightly grow the button on hover */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow on hover for depth */
+        }
+
+        #fileName {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<section class="row" layout:fragment="app-content">
+    <div class="container mt-4">
+        <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+        <div th:if="${message}" class="alert alert-success" role="alert" th:text="${message}"></div>
+
+        <h2 class="mb-4">Chỉnh sửa Sản phẩm</h2>
+
+        <!-- Form Chỉnh sửa Sản phẩm -->
+        <form th:action="@{/admin/products/update}" th:object="${product}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <input type="hidden" th:field="*{productId}" />
+
+            <!-- Mã sản phẩm -->
+            <div class="form-group">
+                <label for="productCode">Mã sản phẩm</label>
+                <input type="text" id="productCode" th:field="*{productCode}" class="form-control" readonly required>
+            </div>
+
+            <!-- Tên sản phẩm -->
+            <div class="form-group">
+                <label for="productName">Tên sản phẩm</label>
+                <input type="text" id="productName" th:field="*{productName}" class="form-control" required>
+            </div>
+
+            <!-- Danh mục sản phẩm -->
+            <div class="form-group">
+                <label for="category">Danh mục sản phẩm</label>
+                <select id="category" th:field="*{category.categoryId}" class="form-control" required>
+                    <option value="">Chọn danh mục</option>
+                    <th:block th:each="category : ${categories}">
+                        <option th:value="${category.categoryId}" th:text="${category.categoryName}"
+                                th:selected="${product.category != null and product.category.categoryId == category.categoryId}">
+                    </th:block>
+                </select>
+            </div>
+
+            <!-- Giá tiền -->
+            <div class="form-group">
+                <label for="cost">Giá</label>
+                <input type="number" id="cost" th:field="*{cost}" class="form-control" step="0.01" required>
+            </div>
+
+            <!-- Mô tả sản phẩm -->
+            <div class="form-group">
+                <label for="description">Mô tả sản phẩm</label>
+                <textarea id="description" th:field="*{description}" class="form-control" rows="4" required></textarea>
+            </div>
+
+            <!-- Thương hiệu -->
+            <div class="form-group">
+                <label for="brand">Thương hiệu</label>
+                <input type="text" id="brand" th:field="*{brand}" class="form-control" required>
+            </div>
+
+            <!-- Ngày sản xuất -->
+            <div class="form-group">
+                <label for="manufactureDate">Ngày sản xuất</label>
+                <input type="date" id="manufactureDate" th:field="*{manufactureDate}" class="form-control" required>
+            </div>
+
+           
+
+            <!-- Thành phần -->
+            <div class="form-group">
+                <label for="ingredient">Chất liệu</label>
+                <textarea id="ingredient" th:field="*{ingredient}" class="form-control" rows="2" required></textarea>
+            </div>
+
+            <!-- Hướng dẫn sử dụng -->
+            <div class="form-group">
+                <label for="how_to_use">Hạn chế</label>
+                <textarea id="how_to_use" th:field="*{how_to_use}" class="form-control" rows="2" required></textarea>
+            </div>
+
+            <!-- Dung tích -->
+            <div class="form-group">
+                <label for="volume">Khối lượng</label>
+                <input type="text" id="volume" th:field="*{volume}" class="form-control" required>
+            </div>
+
+            <!-- Nơi sản xuất -->
+            <div class="form-group">
+                <label for="origin">Nơi sản xuất</label>
+                <input type="text" id="origin" th:field="*{origin}" class="form-control" required>
+            </div>
+
+<!--            &lt;!&ndash; Link hình ảnh &ndash;&gt;-->
+<!--            <div class="form-group">-->
+<!--                <label for="image">Link hình ảnh</label>-->
+<!--                <input type="text" id="image" th:field="*{image}" class="form-control">-->
+<!--            </div>-->
+
+            <!-- Hình ảnh -->
+            <div class="mb-4">
+                <label class="block font-semibold mb-2">Add Image:</label>
+                <div class="flex items-center gap-2">
+                    <button id="customButton" type="button" class="choose-file-button">Choose File</button>
+                    <span id="fileName" class="text-gray-500">No file chosen</span>
+                </div>
+                <input type="file" id="imageInput" name="imagePath" accept="image/*" hidden>
+                <img id="imagePreview" th:src="@{'/api/images?imageName=' + ${product.image}}" alt="Image Preview"
+                     style="max-width: 200px; max-height: 200px; margin-top: 10px;">
+            </div>
+
+            <!-- Nút submit -->
+            <button type="submit" class="btn btn-primary">Cập nhật sản phẩm</button>
+
+        </form>
+
+        <!-- Nút quay lại -->
+        <a href="/admin/products" class="btn btn-secondary mt-3">Quay lại danh sách sản phẩm</a>
+    </div>
+
+    <!-- Bootstrap JS và Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const customButton = document.getElementById('customButton');
+        const fileNameDisplay = document.getElementById('fileName');
+        let selectedFile = null; // Biến lưu trữ file được chọn
+
+        let previousImageUrl = imagePreview.src === "#" ? null : imagePreview.src;
+
+        // Click vào nút tùy chỉnh để kích hoạt input file
+        customButton.addEventListener('click', function () {
+            imageInput.click();
+        });
+
+        // Hiển thị ảnh được chọn
+        function displayImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previousImageUrl = imagePreview.src;
+                    imagePreview.src = e.target.result;
+                    selectedFile = input.files[0]; // Lưu trữ file được chọn
+                    imagePreview.style.display = 'block';
+                    fileNameDisplay.textContent = input.files[0].name; // Cập nhật tên file
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Khôi phục ảnh trước đó
+        function restorePreviousImage() {
+            if (previousImageUrl) {
+                imagePreview.src = previousImageUrl;
+                imagePreview.style.display = 'block';
+            } else {
+                imagePreview.style.display = 'none';
+            }
+            fileNameDisplay.textContent = "No file chosen"; // Khôi phục trạng thái tên file
+        }
+
+        // Xử lý khi file input thay đổi
+        imageInput.addEventListener('change', function () {
+            if (this.files.length > 0) {
+                displayImage(this);
+            } else {
+                restorePreviousImage();
+            }
+        });
+
+        // Xử lý khi người dùng nhấp vào input file
+        imageInput.addEventListener('click', function () {
+            // Đặt lại giá trị chỉ khi cần
+            setTimeout(() => {
+                this.value = ''; // Đặt lại input file về rỗng
+            }, 0); // Đảm bảo thực hiện sau khi sự kiện click hoàn thành
+        });
+
+        function validateForm() {
+        const manufactureDate = document.getElementById('manufactureDate').value;
+        const expirationDate = document.getElementById('expirationDate').value;
+
+        if (new Date(manufactureDate) >= new Date(expirationDate)) {
+        alert("Ngày sản xuất phải nhỏ hơn ngày hết hạn!");
+        return false;
+        }
+
+        return true;
+        }
+
+
+    </script>
+</section>
+</body>
+</html>

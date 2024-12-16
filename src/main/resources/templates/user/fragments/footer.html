@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glamour Cosmetics Footer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #81c7d4;  /* Light Pastel Blue */
+      --secondary-color: #b0e0e6;  /* Powder Blue */
+      --hover-color: #75a4b8;  /* Darker pastel blue for hover */
+      --text-color: #2a3d4d;  /* Dark text for contrast */
+      --footer-bg: #e6f4f8; /* Light pastel background */
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9fbfd;
+    }
+
+    .footer {
+      background: var(--footer-bg);
+      color: var(--text-color);
+      padding: 30px 0;
+      text-align: center;
+      border-top: 2px solid var(--primary-color);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+      margin: 0 15px;
+      transition: color 0.3s ease;
+    }
+
+    .footer a:hover {
+      color: var(--hover-color);
+    }
+
+    .footer h5 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .footer p {
+      font-size: 1rem;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    .footer .social-icons a {
+      font-size: 1.5rem;
+      margin: 0 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .footer .social-icons a:hover {
+      transform: translateY(-5px);
+      color: var(--hover-color);
+    }
+
+    .footer .social-icons {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .footer .social-icons i {
+      margin: 0 15px;
+    }
+
+    .footer .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 30px;
+    }
+
+    .footer .contact-info div {
+      text-align: left;
+    }
+
+    .footer .contact-info i {
+      margin-right: 10px;
+      color: var(--primary-color);
+    }
+
+    .footer .contact-info p {
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer .contact-info {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <footer class="footer">
+    <h5>Glamour Cosmetics</h5>
+    <p>Your go-to store for luxury beauty products</p>
+    <div class="social-icons">
+      <a href="https://www.facebook.com/?locale=vi_VN" class="facebook"><i class="fab fa-facebook"></i></a>
+      <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+      <a href="" class="youtube"><i class="fab fa-youtube"></i></a>
+    </div>
+    <div class="contact-info">
+      <div>
+        <p><i class="fas fa-map-marker-alt"></i> 123 Beauty St, Glamour City</p>
+      </div>
+      <div>
+        <p><i class="fas fa-phone-alt"></i> +123 456 7890</p>
+      </div>
+      <div>
+        <p><i class="fas fa-envelope"></i> contact@glamourcosmetics.com</p>
+      </div>
+    </div>
+    <p>&copy; 2024 Glamour Cosmetics. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
