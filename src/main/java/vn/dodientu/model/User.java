@@ -5,17 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import vn.dodientu.repository.RoleRepository;
 
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Table(name = "users")  // Đặt tên bảng trong cơ sở dữ liệu
 public class User {
 
@@ -28,7 +31,7 @@ public class User {
     private String email;
     private String password;
     private String phone;
-    private String address;
+    //private String address;
     private String image_url;
     private String resetCode;
     private Instant resetCodeExpiry;
@@ -38,7 +41,12 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER) // One role per user, but roles can be shared among users
     @JoinColumn(name = "role_id") // Specifies the foreign key column
     private Role role;
-   
+    
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
+    @ToString.Exclude
+    private Address address;
+    
  // Gán role bằng tên role
     public void setRole(String roleName, RoleRepository roleRepository) {
         this.role = roleRepository.findByName(roleName)

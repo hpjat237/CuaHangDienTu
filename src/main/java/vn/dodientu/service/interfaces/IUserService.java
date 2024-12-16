@@ -1,5 +1,10 @@
 package vn.dodientu.service.interfaces;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import vn.dodientu.model.User;
 
 public interface IUserService {
@@ -17,4 +22,8 @@ public interface IUserService {
     boolean emailExists(String email);
     
     User update(User updatedEntity);
+    
+    User findUserById(Long id);
+    Page<User> searchUsers(String searchTerm, Pageable pageable);
+    Page<User> getUsers(int page, int size);
 }

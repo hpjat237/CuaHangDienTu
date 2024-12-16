@@ -3,6 +3,7 @@ package vn.dodientu.service.implementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import vn.dodientu.service.interfaces.IEmailService;
 import vn.dodientu.service.interfaces.IRedisService;
 import vn.dodientu.service.interfaces.IUserService;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -144,4 +146,22 @@ public class UserServiceImpl implements IUserService, ICrudService<User, Long> {
         Random rand = new Random();
         return String.format("%06d", rand.nextInt(999999));
     }
+
+	@Override
+	public Page<User> searchUsers(String searchTerm, Pageable pageable) {
+		 return userRepository.findByFullNameContainingOrEmailContaining(searchTerm, searchTerm, pageable);
+	}
+
+	@Override
+	public User findUserById(Long id) {
+		 return userRepository.findById(id).orElse(null);
+	}
+
+	@Override
+	public Page<User> getUsers(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);  // Set page number and size
+        return userRepository.findAll(pageable); 
+	}
+
+	
 }

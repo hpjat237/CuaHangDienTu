@@ -6,7 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
 
 @Getter
 @Setter
@@ -20,13 +27,29 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)  // Áp dụng cascade cho việc xóa
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonManagedReference
     private User user;
-
+    
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "shipping_address_id", referencedColumnName = "address_id")
+    private Address shippingAddress;
+    
     private Double totalAmount;
-    private String status;
-    private String paymentMethod;
+    
+    @Column(name = "phone_number")
+    private String phoneNumber;
+    
+    private String note;
+    
+    
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "shipping_status")
+    //Trạng thái giao hàng
+    private OrderShippingStatus shippingStatus;
+    
 
     @Column(name = "created_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -36,8 +59,25 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date updatedAt = new java.util.Date();
 
-    private String shippingAddress;
+    @Column(name = "order_date" )
+    private LocalDateTime orderDate;
+
+    @Column(name = "receive_date")
+    private LocalDateTime  receiveDate;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems;
+    
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<LineItem> listLineItems;
+    
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
+    @JsonManagedReference
+    private Payment payment;
+    
+    
+   
+    
 }
